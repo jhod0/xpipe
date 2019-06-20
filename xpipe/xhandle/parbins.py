@@ -2,7 +2,7 @@
 # TODO add documentation
 """
 
-from __future__ import print_function, division
+
 
 import os
 
@@ -249,14 +249,14 @@ def load_lenscat(params=None, fullpaths=None, which=None):
     if params["fields_to_use"] is not None:
         select = np.zeros(len(ra), dtype=bool)
         fields = get_fields_auto()
-        for name in fields.keys():
+        for name in list(fields.keys()):
             select += field_cut(ra, dec, fields[name])
     else:
         select = np.ones(len(ra), dtype=bool)
 
     # number of parameter columns
-    nq = len(lenskey.keys()) - 4
-    if "jkey" in lenskey.keys():
+    nq = len(list(lenskey.keys())) - 4
+    if "jkey" in list(lenskey.keys()):
         nq -= 1
     qlist = np.zeros(shape=(len(ra), nq))
     for ival in np.arange(nq):
@@ -336,7 +336,7 @@ def load_randcat(params=None, fullpaths=None, which=None):
     randkey = params['randkey']
 
     ra = randcat[randkey['ra']]
-    if 'w' in randkey.keys():
+    if 'w' in list(randkey.keys()):
         w = randcat[randkey['w']]
     else:
         w = np.ones(ra.shape)
@@ -350,14 +350,14 @@ def load_randcat(params=None, fullpaths=None, which=None):
     if params["fields_to_use"] is not None:
         select = np.zeros(len(ra), dtype=bool)
         fields = get_fields_auto()
-        for name in fields.keys():
+        for name in list(fields.keys()):
             select += field_cut(ra, dec, fields[name])
     else:
         select = np.ones(len(ra), dtype=bool)
 
     # number of parameter columns
-    nq = len(randkey.keys()) - 3
-    if "jkey" in randkey.keys():
+    nq = len(list(randkey.keys())) - 3
+    if "jkey" in list(randkey.keys()):
         nq -= 1
     qlist = np.zeros(shape=(len(ra), nq))
     for ival in np.arange(nq):
@@ -475,7 +475,7 @@ def prepare_lenses(bin_settings=None, params=None, fullpaths=None):
 
         # collating into fiducial format
         data = {}
-        for key in datas[0].keys():
+        for key in list(datas[0].keys()):
             data.update({key: np.concatenate([_data[key] for _data in datas])})
 
         data.update({"fullcat": np.concatenate(fullcats)})
@@ -492,7 +492,7 @@ def prepare_lenses(bin_settings=None, params=None, fullpaths=None):
         data["plpairs"] = None
         data.update({"bounds": bounds})
 
-    if "jkey" in params["lenskey"].keys() and params["lenskey"]["jkey"] is not None:
+    if "jkey" in list(params["lenskey"].keys()) and params["lenskey"]["jkey"] is not None:
         data.update({"jk": data["fullcat"][params["lenskey"]["jkey"]]})
 
     return data
@@ -600,7 +600,7 @@ def prepare_random(bin_settings=None, params=None, fullpaths=None):
 
         # collating into fiducial format
         data = {}
-        for key in datas[0].keys():
+        for key in list(datas[0].keys()):
             data.update({key: np.concatenate([_data[key] for _data in datas])})
 
         data.update({"fullcat": np.concatenate(fullcats)})
@@ -617,7 +617,7 @@ def prepare_random(bin_settings=None, params=None, fullpaths=None):
         data["plpairs"] = None
         data.update({"bounds": bounds})
 
-    if "jkey" in params["lenskey"].keys() and params["lenskey"]["jkey"] is not None:
+    if "jkey" in list(params["lenskey"].keys()) and params["lenskey"]["jkey"] is not None:
         data.update({"jk": data["fullcat"][params["lenskey"]["jkey"]]})
     return data
 
@@ -712,7 +712,7 @@ class XIO(object):
             self.dirpaths = dirpaths
 
         self.centers = force_centers
-        if "jk" in lenses.keys() and "jk" in lenses.keys():
+        if "jk" in list(lenses.keys()) and "jk" in list(lenses.keys()):
             self.centers = None
 
         self._bin_jk_centers = None

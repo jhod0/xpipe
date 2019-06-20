@@ -1,7 +1,7 @@
 """
 Handles calling xshear with multiprocessing (OpenMP-style single node calculations)
 """
-from __future__ import print_function, division
+
 import os
 import copy
 import numpy as np
@@ -165,7 +165,7 @@ def get_default_xshear_settings(params=None):
 
 def addlines(cfg, odict):
     """appends lines to config file"""
-    for key in odict.keys():
+    for key in list(odict.keys()):
         line = key + ' = ' + str(odict[key]) + '\n'
         cfg.write(line)
 
@@ -664,12 +664,12 @@ def call_xshear(infodict):
 
     shape_path = infodict['shape_path']
 
-    if 'head' in infodict.keys() and infodict['head']:
+    if 'head' in list(infodict.keys()) and infodict['head']:
         cmd1 = 'head -n ' + str(infodict['head']) + " " + shape_path
     else:
         cmd1 = 'cat ' + shape_path
 
-    if 'xconfig' in infodict.keys() and infodict['xconfig'] is not None:
+    if 'xconfig' in list(infodict.keys()) and infodict['xconfig'] is not None:
         xconfig = infodict['xconfig']
     else:
         xconfig = paths.fullpaths['xconfig']

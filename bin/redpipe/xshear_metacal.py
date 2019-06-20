@@ -7,7 +7,7 @@ run 5 times in total:
  - 4 times to calculate inputs for selection responses
 
 """
-from __future__ import print_function, division
+
 import argparse
 import numpy as np
 

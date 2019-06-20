@@ -1,7 +1,7 @@
 """
 Loads project path from user config files
 """
-from __future__ import print_function, division
+
 import os
 import yaml
 import glob
@@ -71,7 +71,7 @@ def print_mode(params):
 def expand_paths(dct, root_path):
     fullpath = {}
     fullpath.update({'root': root_path})
-    for key in dct.keys():
+    for key in list(dct.keys()):
         fullpath.update({key: root_path + dct[key]})
     return fullpath
 
@@ -89,14 +89,14 @@ def get_dirpaths(params, project_path):
 
 def get_local_filenames(pths, dirs):
     fullpaths = {}
-    for dkey in pths.keys():
+    for dkey in list(pths.keys()):
         for item in pths[dkey]:
             if isinstance(pths[dkey][item], str):
                 ftail = pths[dkey][item].split('/')[-1]
                 fullpaths.update({item: dirs[dkey] + '/' + ftail})
             elif isinstance(pths[dkey][item], dict):
                 idict = {}
-                for key in pths[dkey][item].keys():
+                for key in list(pths[dkey][item].keys()):
                     val = pths[dkey][item][key]
                     if isinstance(val, str):
                         ftail = pths[dkey][item][key]
@@ -125,7 +125,7 @@ def get_fullpaths(params, project_path, default_inputs=True):
     fullpaths = get_local_filenames(_inputs_dict['local'], dirpaths)
 
     # check if shear_to_use is present in fullpaths
-    if params['shear_to_use'] not in fullpaths.keys():
+    if params['shear_to_use'] not in list(fullpaths.keys()):
         raise KeyError(
             'Specified shearcat ("shear_to_use: ' + str(params['shear_to_use']) + '") is not in the local shearcats!')
 
@@ -143,7 +143,7 @@ def use_custom_params(path):
         print('updating params from: ' + path)
         tmp_yaml = read_yaml(path)
         params.update(tmp_yaml)
-        has_custom_specified = "custom_params_file" in tmp_yaml.keys()
+        has_custom_specified = "custom_params_file" in list(tmp_yaml.keys())
 
 
 def locate_params(pth):
@@ -194,7 +194,7 @@ def get_bin_settings(params, devmode):
         nrandoms = params['nrandoms']['full']
 
     if param_bins != "auto":
-        keys = np.sort(param_bins.keys())
+        keys = np.sort(list(param_bins.keys()))
         param_bins = [param_bins[key] for key in keys]
 
     return param_bins, nrandoms
@@ -230,7 +230,7 @@ if project_path is not None:
     pdf_files = get_pdf_flist(params)
 
     # READING custom params files
-    has_custom_specified = "custom_params_file" in params.keys()
+    has_custom_specified = "custom_params_file" in list(params.keys())
     while has_custom_specified and params["custom_params_file"] is not None:
         custom_param_path = _complete_params_path(params["custom_params_file"])
         if os.path.isfile(custom_param_path):

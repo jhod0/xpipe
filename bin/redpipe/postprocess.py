@@ -1,7 +1,7 @@
 """
 Collects xshear output files into DeltaSigma profiles
 """
-from __future__ import print_function, division
+
 import argparse
 import copy
 import numpy as np

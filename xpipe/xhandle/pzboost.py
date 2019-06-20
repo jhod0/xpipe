@@ -4,7 +4,7 @@ Source pdf-container and boost factor creation
 The philosophy for decomposition is that it is done for each JK patch independently...
 """
 
-from __future__ import print_function, division
+
 import os
 import scipy.optimize as optimize
 import numpy as np
@@ -300,7 +300,7 @@ def calc_pwsum(pscat, pdf_paths, pdfid='INDEX', source_id="source_id", force_zce
 
             if len(rowind):
                 # loading rows from PDF container
-                cols_to_use = pp.select('pdf_predictions', where=(0,)).keys()[4:].values
+                cols_to_use = list(pp.select('pdf_predictions', where=(0,)).keys())[4:].values
                 pdf_rows = pp.select(key='pdf_predictions', where=rowind, columns=cols_to_use).values
                 # assigning weights
                 ww = left_match['source_weight'].values * left_match["scinv"].values * left_match["gsens_t"]
@@ -345,7 +345,7 @@ def combine_pwsums(infodicts):
         raise ValueError("the JK patches are mixed up, aborting...")
 
     fullpars = paths.params["pzpars"]["full"]
-    if "fullpars" in infodicts[0].keys() and infodicts[0]["fullpars"] is not None:
+    if "fullpars" in list(infodicts[0].keys()) and infodicts[0]["fullpars"] is not None:
         fullpars.update(infodicts[0]["fullpars"])
 
     fnames, has_pairsfile = check_pwsum_files(pnames)

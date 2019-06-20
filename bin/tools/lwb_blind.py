@@ -2,7 +2,7 @@
 Rename and Blind xshear  DeltaSigma profiles as used for Lensing Without Borders
 """
 
-from __future__ import print_function, division
+
 import argparse
 import copy
 import os
